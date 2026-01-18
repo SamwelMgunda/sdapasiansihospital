@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services - SDA Pasiansi Hospital</title>
+  <link rel="icon" href="sdaround.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    body {
+      background: url('img/hospback.jpg') no-repeat center center/cover fixed;
+      position: relative;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(3px);
+      z-index: -2;
+    }
+
+    /* ─────────────── HEADER ─────────────── */
+    /* Header – centered logo */
+    .header {
+      background: white;
+      border-bottom: 2px solid #ccc;
+      padding: 12px 20px;
+    }
+
+    .header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header img {
+      height: auto;
+      max-height: 90px;          /* ← increased size */
+      width: auto;
+      max-width: 100%;           /* prevents overflow */
+    }
+
+    /* Navigation bar */
+    .navbar {
+      background-color: #00a2e8;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    #nav-links{
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      width: 100%;
+    }
+
+    .navbar .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 14px 0;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      visibility: hidden;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+    }
+
+    .bar {
+      height: 4px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+
+    .menu-toggle.active .bar:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar li {
+      position: relative;
+      justify-content: center;
+    }
+
+    .navbar a {
+      display: block;
+      color: white;
+      padding: 14px 18px;
+      text-decoration: none;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .navbar a:hover {
+      background-color: #1E93AB;
+      border-radius: 6px;
+    }
+
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%); /* better centering under parent */
+    }
+
+    .dropdown-content a {
+      color: #004080;
+      padding: 10px 16px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .navbar li:hover .dropdown-content {
+      display: block;
+    }
+    /* ─────────────── MAIN CONTENT ─────────────── */
+    main {
+      position: relative;
+      z-index: 5;
+      padding: 40px 20px;
+      min-height: calc(100vh - 180px);
+    }
+
+    .service-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .p-box {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      transition: all 0.3s ease;
+    }
+
+    .p-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .p-box img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .para-container h2, .para-container h3 {
+      margin-bottom: 12px;
+      color: #024067;
+      font-size: 20px;
+    }
+
+    .para-container p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* ─────────────── FOOTER ─────────────── */
+    .footer {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: white;
+      padding: 60px 20px 40px;
+      position: relative;
+      z-index: 10;
+      margin-top: auto;
+    }
+
+    .footer-top {
+      background-color: #00a3dd;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .footer-top span {
+      font-size: 15px;
+    }
+
+    .social-icons i {
+      color: white;
+      margin-left: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .social-icons i:hover {
+      color: #ddd;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 40px 30px;
+      background: rgba(28,28,28,0.9);
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 30px;
+    }
+
+    .footer-column h3 {
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-column p, .footer-column a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .footer-contact i {
+      margin-right: 8px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media screen and (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+        visibility: visible;
+        width: auto;
+      }
+
+      .navbar .container {
+        justify-content: space-between;
+      }
+
+      .navbar ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #00a2e8;
+        padding: 10px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+
+      .navbar ul.active {
+        display: flex;
+      }
+
+      .navbar li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .navbar a {
+        padding: 16px 20px;
+      }
+
+      .dropdown-content {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        background: #1E93AB;
+      }
+
+      .dropdown-content a {
+        color: white;
+        padding: 14px 60px;
+      }
+
+      .navbar li:hover .dropdown-content,
+      .dropdown-content {
+        display: block !important;
+      }
+
+      .header img {
+        max-height: 70px;
+      }
+
+      .service-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+      }
+
+      .p-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .p-box img {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 10px;
+      }
+
+      .service-container {
+        padding: 0 10px;
+      }
+
+      .p-box img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="container">
+      <img src="img/sda-pasiansi.png" alt="SDA Pasiansi Hospital Logo">
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="container">
+      <div class="menu-toggle" id="mobile-menu">
+        <span>MENU</span>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+
+      <ul id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li>
+          <a href="#">About Us</a>
+          <div class="dropdown-content">
+            <a href="history.html">History</a>
+            <a href="executive.html">Executive Management</a>
+            <a href="organization.html">Organization Structure</a>
+          </div>
+        </li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="HOD.html">HOD</a></li>
+        <li><a href="appointment.html">Make Appointment</a></li>
+        <li><a href="CONTACT.html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main>
+    <div class="service-container">
+      <div class="p-box">
+        <img src="img/consult.png" alt="General Consultation">
+        <div class="para-container">
+          <h2>General Consultation</h2>
+          <p>We provide comprehensive medical consultations for patients of all ages, offering accurate diagnosis, personalized treatment plans, and ongoing health monitoring.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/emergency.png" alt="Emergency and Critical Care">
+        <div class="para-container">
+          <h2>Emergency and Critical Care</h2>
+          <p>Our emergency department operates 24/7, staffed with skilled medical professionals ready to handle all urgent and life-threatening conditions with speed and compassion.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/maternity.png" alt="Maternal and Child Health Services">
+        <div class="para-container">
+          <h3>Maternal and Child Health Services</h3>
+          <p>From prenatal care to safe delivery and pediatric checkups, we ensure the health and well-being of mothers and children through every stage of life.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/lab.png" alt="Laboratory and Diagnostic Services">
+        <div class="para-container">
+          <h3>Laboratory and Diagnostic Services</h3>
+          <p>Our fully equipped laboratory and diagnostic unit offer precise testing, imaging, and screening services to support quick and accurate medical decisions.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/pharma.png" alt="Pharmacy Services">
+        <div class="para-container">
+          <h3>Pharmacy Services</h3>
+          <p>We maintain an in-house pharmacy that provides high-quality, genuine medications and professional guidance to ensure safe and effective treatment.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/surgery.png" alt="Surgical Services">
+        <div class="para-container">
+          <h3>Surgical Services</h3>
+          <p>Our hospital offers both minor and major surgical procedures, conducted in sterile, modern operating rooms by qualified surgeons and support staff.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/outdoor.png" alt="Outpatient and Specialist Clinics">
+        <div class="para-container">
+          <h3>Outpatient and Specialist Clinics</h3>
+          <p>We host regular specialist clinics for conditions such as cardiology, orthopedics, ENT, dermatology, and more — ensuring every patient receives expert care tailored to their needs.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/cardiology.png" alt="Cardiology">
+        <div class="para-container">
+          <h3>Cardiology Services</h3>
+          <p>Comprehensive heart care including diagnosis, treatment, and rehabilitation of cardiovascular diseases.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/eye care.png" alt="Eye Care">
+        <div class="para-container">
+          <h3>Eye Care Services</h3>
+          <p>Full range of ophthalmology services, from routine eye exams to advanced treatments and surgeries.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/physiotherapy.png" alt="Physiotherapy">
+        <div class="para-container">
+          <h3>Physiotherapy Services</h3>
+          <p>Personalized physical therapy programs to aid recovery, pain management, and improve mobility.</p>
+        </div>
+      </div>
+
+      <div class="p-box">
+        <img src="img/dental.png" alt="Dental Services">
+        <div class="para-container">
+          <h3>Dental Services</h3>
+          <p>Comprehensive oral health services including preventive care, restorations, and orthodontics.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <span>Get connected with us on social networks:</span>
+      <div class="social-icons">
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+        <a href="https://youtu.be/rPrAmJNm2DA?si=-OCws3psAahFqaA2" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>SDA Pasiansi Hospital</h3>
+        <p>SDA Pasiansi Hospital is a referral, consultant and university teaching hospital for the Lake and Western zones of the United Republic of Tanzania. It is situated along the shores of Lake Victoria in Mwanza City. It has over 950 beds and over 1300 employees.</p>
+      </div>
+
+      <div class="footer-column">
+        <h3>QUICK LINKS</h3>
+        <a href="#">Tanzania Episcopal Conference (TEC)</a>
+        <a href="#">Ministry of Health (MoH)</a>
+        <a href="#">Muhimbili National Hospital (MNH)</a>
+        <a href="#">Medical Council of Tanganyika (MCT)</a>
+        <a href="#">Tanzania Medicines & Medical Devices Authority (TMDA)</a>
+        <a href="#">National Institute for Medical Research (NIMR)</a>
+        <a href="#">Public Service Management</a>
+      </div>
+
+      <div class="footer-column footer-contact">
+        <h3>CONTACT</h3>
+        <a href="https://maps.app.goo.gl/aCU249Gdrx4cGRi39" target="_blank"><i class="fas fa-map-marker-alt"></i> SDA Pasiansi Hospital</a>
+        <p><i class="fas fa-envelope"></i> info@sdapasiansihospital.org</p>
+        <p><i class="fas fa-phone"></i> +255 765 367 644</p>
+        <p><i class="fas fa-fax"></i> +255 747 178 905</p>
+        <p><i class="fas fa-mail-bulk"></i> P.O.Box 104</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Copyright: All rights reserved SDA Pasiansi Hospital
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+      });
+
+      document.querySelectorAll('#nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          menuToggle.classList.remove('active');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

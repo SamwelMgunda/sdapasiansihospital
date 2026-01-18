@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Management - SDA Pasiansi Hospital</title>
+  <link rel="icon" href="sdaround.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f8fb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    /* ─────────────── HEADER ─────────────── */
+    .header {
+      background: white;
+      border-bottom: 2px solid #ccc;
+      padding: 12px 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header img {
+      height: auto;
+      max-height: 90px;
+      width: auto;
+      max-width: 100%;
+    }
+
+    /* ─────────────── NAVBAR ─────────────── */
+    .navbar {
+      background-color: #00a2e8;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 14px 0;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      visibility: hidden;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+    }
+
+    .bar {
+      height: 4px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s;
+    }
+
+    .menu-toggle.active .bar:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+    .navbar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+#nav-links{
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      width: 100%;
+    }
+
+    .navbar li {
+      position: relative;
+    }
+
+    .navbar a {
+      display: block;
+      color: white;
+      padding: 14px 18px;
+      text-decoration: none;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .navbar a:hover {
+      background-color: #1E93AB;
+      border-radius: 6px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 2000;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .dropdown-content a {
+      color: #004080;
+      padding: 10px 16px;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .navbar li:hover .dropdown-content {
+      display: block;
+    }
+
+    /* ─────────────── BREADCRUMB ─────────────── */
+    .breadcrumb {
+      background: #D3DAD9;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .breadcrumb a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* ─────────────── MAIN CONTENT ─────────────── */
+    main {
+      flex: 1;
+      padding: 40px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .structure {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .structure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+      border: 1px solid #eee;
+    }
+
+    /* ─────────────── FOOTER ─────────────── */
+    .footer {
+      background-color: #222;
+      color: #fff;
+      font-size: 14px;
+      margin-top: auto;
+    }
+
+    .footer-top {
+      background-color: #00a3dd;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .footer-top span {
+      font-size: 15px;
+    }
+
+    .social-icons i {
+      color: white;
+      margin-left: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .social-icons i:hover {
+      color: #ddd;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 40px 30px;
+      background-color: #1c1c1c;
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 30px;
+    }
+
+    .footer-column h3 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .footer-column p, .footer-column a {
+      color: #ccc;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-column a:hover {
+      color: #fff;
+    }
+
+    .footer-contact i {
+      margin-right: 8px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background-color: #111;
+      font-size: 13px;
+      color: #888;
+    }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media screen and (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+        visibility: visible;
+        width: auto;
+      }
+
+      .navbar .container {
+        justify-content: space-between;
+      }
+
+      .navbar ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #00a2e8;
+        padding: 10px 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      }
+
+      .navbar ul.active {
+        display: flex;
+      }
+
+      .navbar li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .navbar a {
+        padding: 16px 20px;
+      }
+
+      .dropdown-content {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        background-color: #1E93AB;
+      }
+
+      .dropdown-content a {
+        color: white;
+        padding: 14px 60px;
+      }
+
+      .navbar li:hover .dropdown-content,
+      .dropdown-content {
+        display: block !important;
+      }
+
+      .header img {
+        max-height: 70px;
+      }
+
+      .structure {
+        padding: 20px;
+      }
+
+      main {
+        padding: 20px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .breadcrumb {
+        padding: 10px 15px;
+        font-size: 13px;
+      }
+
+      .structure img {
+        border-radius: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="container">
+      <img src="img/sda-pasiansi.png" alt="SDA Pasiansi Hospital Logo">
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="container">
+      <div class="menu-toggle" id="mobile-menu">
+        <span>MENU</span>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+
+      <ul id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li>
+          <a href="#">About Us</a>
+          <div class="dropdown-content">
+            <a href="history.html">History</a>
+            <a href="executive.html">Executive Management</a>
+            <a href="organization.html">Organization Structure</a>
+          </div>
+        </li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="HOD.html">HOD</a></li>
+        <li><a href="appointment.html">Make Appointment</a></li>
+        <li><a href="CONTACT.html">Contact us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> / Executive Management
+  </div>
+
+  <main>
+    <section class="structure">
+      <div style="text-align: center;">
+        <img src="img/BOARD STRUCTURE 1.png" alt="Organizational chart of SDA Pasiansi Hospital Board Structure">
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <span>Get connected with us on social networks:</span>
+      <div class="social-icons">
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+        <a href="https://youtu.be/rPrAmJNm2DA?si=-OCws3psAahFqaA2" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>SDA Pasiansi Hospital</h3>
+        <p>SDA Pasiansi Hospital is a referral, consultant and university teaching hospital for the Lake and Western zones of the United Republic of Tanzania. It is situated along the shores of Lake Victoria in Mwanza City. It has over 950 beds and over 1300 employees.</p>
+      </div>
+
+      <div class="footer-column">
+        <h3>QUICK LINKS</h3>
+        <a href="#">Tanzania Episcopal Conference (TEC)</a>
+        <a href="#">Ministry of Health (MoH)</a>
+        <a href="#">Muhimbili National Hospital (MNH)</a>
+        <a href="#">Medical Council of Tanganyika (MCT)</a>
+        <a href="#">Tanzania Medicines & Medical Devices Authority (TMDA)</a>
+        <a href="#">National Institute for Medical Research (NIMR)</a>
+        <a href="#">Public Service Management</a>
+      </div>
+
+      <div class="footer-column footer-contact">
+        <h3>CONTACT</h3>
+        <a href="https://maps.app.goo.gl/aCU249Gdrx4cGRi39" target="_blank"><i class="fas fa-map-marker-alt"></i> SDA Pasiansi Hospital</a>
+        <p><i class="fas fa-envelope"></i> info@sdapasiansihospital.org</p>
+        <p><i class="fas fa-phone"></i> +255 765 367 644</p>
+        <p><i class="fas fa-fax"></i> +255 747 178 905</p>
+        <p><i class="fas fa-mail-bulk"></i> P.O.Box 104</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Copyright: All rights reserved SDA Pasiansi Hospital
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+      });
+
+      // Close menu after clicking any link
+      document.querySelectorAll('#nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          menuToggle.classList.remove('active');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
